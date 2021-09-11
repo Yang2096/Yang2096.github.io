@@ -1,0 +1,209 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>读《设计模式》 | Yang&#39;s Blog</title>
+<link rel="shortcut icon" href="https://yang2096.github.io/favicon.ico?v=1631371725782">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yang2096.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="读《设计模式》 | Yang&#39;s Blog - Atom Feed" href="https://yang2096.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="在买这本书之前看过很多网络上介绍设计模式的文章，一般会流于两种形式：一是给你举一些自以为贴切的例子，除了分散注意力外对模式的阐述毫无裨益。二是只谈模式本身的结构，对其作用的问题及上下文少有提及。我几次下定决心想要学完都没成功，一度以为自己心..." />
+    <meta name="keywords" content="读书" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yang2096.github.io">
+  <img class="avatar" src="https://yang2096.github.io/images/avatar.png?v=1631371725782" alt="">
+  </a>
+  <h1 class="site-title">
+    Yang&#39;s Blog
+  </h1>
+  <p class="site-description">
+    Yet ANother Good blog
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://yang2096.github.io/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/yang2096" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              读《设计模式》
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-09-07
+              </span>
+              <span>
+                10 min read
+              </span>
+              
+                <a href="https://yang2096.github.io/tag/reading/" class="post-tag">
+                  # 读书
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://yang2096.github.io/post-images/design_patterns.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>在买这本书之前看过很多网络上介绍设计模式的文章，一般会流于两种形式：一是给你举一些自以为贴切的例子，除了分散注意力外对模式的阐述毫无裨益。二是只谈模式本身的结构，对其作用的问题及上下文少有提及。我几次下定决心想要学完都没成功，一度以为自己心浮气躁，不能沉下心来夯实基础。☹️</p>
+<p>直到我看了这本《设计模式 可复用面向对象软件的基础》的前两章。</p>
+<p>就我的粗浅水平来看，第一章可能还算“平平无奇”，但是第二章是着实把我震住了。第二章讲的是一个文档编辑器的例子，短短三十页里面提及了八种模式，每一个模式的运用都非常自然，仿佛在面临这种场景之时，天生就应该使用这种设计模式。让人击节赞叹，让人念头通达，让人看到这种解决方式之后再也无法承认还有更妙的解法。好像一边看一边能听到作者就在旁边说：“老夫今天便是要教教你，什么叫编程之美！”</p>
+<p>当然这样的说法可能是我有所夸张。这是在看到大海高山之后，相形见绌之下的喟叹。</p>
+<p>虽然本人工作已经三年了，但是代码设计一直还停留在以面向过程的抽象为主的阶段。倒不是说面向过程的设计不好，但是我感觉：面向过程的程序，代码的复用只是以函数为单位，面对功能不断变化的迭代过程，确实力有未逮。因为函数之间的调用是最直接的，耦合十分紧密，一个改动往往需要牵连好几个函数。而面向对象的代码设计不仅带来了抽象建模上的改变，同时也增添了代码复用、结构设计上的优势。</p>
+<p>以前我对面向对象的三大特性：封装、继承和多态的理解十分粗浅。</p>
+<p>对于封装，以为只要成员变量是私有的，不让类以外的代码自由访问就算封装。看完书我才理解到：封装的高级形式是封装变化，封装的目的和优势之一是隔离。封装是将类内部的数据隐藏掉，使得外部只需关注它的行为。比如 Iterator 模式，就是封装了集合类的内部结构，使得外部只需关注遍历操作。这一点和运行时多态结合起来，更是强大：接口封装了所有行为，而承载这些行为的实体还能替换，使得行为也可以在运行时变化 。增加接口的实现就是功能的扩展，而使用接口的代码则可完全复用。这不就是“对扩展开放，对修改关闭”吗？而接口和实现之间的连接则是通过继承实现，书中虽说倾向于使用组合而非继承，但这是从代码复用的角度来说的，实际实现上为了满足接口的定义，继承也是很常见的。</p>
+<p>如书所言，设计模式是针对一类问题，在特定上下文中，利用面向对象特性的一种解决方案。书中不断强调其针对的问题，一方面是强调设计模式的使用不能脱离具体领域，一种设计模式并不是面对一切问题的万能钥匙。二是让读者在遇到相似情况时能想到使用设计模式。我觉得后者是运用设计模式最难的部分，毕竟判断出该使用哪种模式之后，剩下的便是索然无味的代码实现。而能分析问题，站在更高的角度来观察整体的代码结构而非只看到实现，无疑对工程师的抽象能力、分析能力有着更高的要求。</p>
+<p>整本书不愧是一代开山怪合著的精华，硬要挑一点毛病就只能说成书时间实在太早了，书中大量例子所使用的 SmallTalk 语言，别说看懂语法了，在此之前我连名字都没听说过。好在 C++ 还是能看懂的，不过就连 C++ 也是 Lambda 函数都不存在的版本。其实语言版本古老也还好，揭示了设计模式的通用性，只不过某些语言下确实更容易实现而已。</p>
+<p>如果还有什么毛病也只能是我的，这是我第一次在拼多多上买书，结果前50页重复了，这就是拼多多的加量还降价吗？😂再也不在拼多多买书了。</p>
+<p>最后还是对每种设计模式来几句自己的总结吧。</p>
+<p><strong>Abstract Factory</strong>：需要创建一系列相关联的对象时使用，正如一个工厂里的商品都有同样的商标（内在的联系）。<br>
+<strong>Builder</strong>：创建复杂的、带有可选项的对象时使用。有一些链式的函数调用最后一个<code>Build()</code>，就是这种模式。<br>
+<strong>Factory Method</strong>：将创建和实现分离，创建使用者自己都不知道该用的类的时候使用。<br>
+<strong>Prototype</strong>：创建的对象都可以从一个原始基础上略作改动时可以偷懒，先定义好原型，后面只用复制+少许改变就行。<br>
+<strong>Singleton</strong>：会引入全局的状态，用着爽，但是不到必要情况还是别用了。</p>
+<p><strong>Adapter</strong>：包装一个接口使其符合另一个接口的定义，是针对两个已有的接口在实现阶段而非设计阶段做出的补全。书里的 Pluggable Adapter 的意思是能运行时动态改变 Adaptee 的适配器，根据最少知识原则，Adapter 对 Adaptee 的假设越少，复用程度就能越大。Pluggable Adapter 通过注入行为而达到对 Adaptee 的最小假设。<br>
+<strong>Bridge</strong>：在两组独立扩展的类层次之间做出的桥接。重点在于让两种类之间能独立地进行扩展，而非像 Adapter 一样去拟合两个类。两种类的接口甚至可以毫无关系，Implementer 只需提供给 Abstraction 所需要的操作即可。<br>
+<strong>Composite</strong>：个人感觉最妙的模式，局部和整体有着统一的优美，可以嵌套的结构如同幂集一般构造出纷繁的形式。不区分组合和单个对象是设计的关键。常见于 UI 中各种组件的层次结构构造，文件目录的实现。<br>
+<strong>Decorator</strong>：常与 Composite 联用，装饰前后的接口保持一致，适合简单地在原有行为前后加入新的操作。<br>
+<strong>Facade</strong>：给多个子系统整合出一个聚合的入口。<br>
+<strong>Flyweight</strong>：关键在于区分内部状态和外部状态。外部状态最好能通过计算得到，不然为了保存外部状态用到太多对象的话，就失去了使用享元模式的本意：通过抽离外部状态来使得大量细粒度的对象能用少数只有内部状态不同的对象复用来代替。书中对连续文本格式的处理使用了 BTree，也是不可多得的巧妙实现，算法与工程的自然结合。<br>
+<strong>Proxy</strong>：同样是在对象外层套了一个壳，与 Decorator 的区别是关注于对内部对象的控制而非增加内部对象的功能。主要的用途是权限控制或延迟访问。最常见的实现可能是 C++ 里的智能指针。</p>
+<p><strong>Chain of Responsibility</strong>：去除了请求的发起者和接收者之间的耦合，发起者不明确最后会由谁来处理请求。稍加改造可以做成链上的所有人都处理请求的形式。没有相关实践，感受不深。<br>
+<strong>Command</strong>：将请求封装为对象，接收者是该对象的 成员变量/参数，在命令执行（调用 command 对象的 Execute 方法）时被 command 对象使用。优势在于能记录历史并实现动作的撤销。<br>
+<strong>Interpreter</strong>：和 Composite 模式有点类似，具体实现的结构需要对应文法的范式。“解释”只是对语法树整体操作的一个指代，实际遍历树节点的任何操作都可以是一种“解释”。但是语法树的构建不归它管，缺点也很明显：修改文法需要同步修改类实现。<br>
+<strong>Iterator</strong>：目的是隐藏集合内部的具体结构。外部迭代器由使用者控制步进，内部迭代器由使用者传入操作，Go 中的 <code>sync.Map:Range</code> 就是一种内部迭代器。<br>
+<strong>Mediator</strong>：多个组件不直接交互，降低相互间的耦合，由中介者来接收消息、通知组件。一个 “manager”类控制多个组件的行为也许可以算作中介者模式，这样的话也许就使用得太自然以至于少有人意识到是这种模式，<br>
+<strong>Memento</strong>：将状态保存到外部，必要时再取回来。实现上需要控制好访问的权限，保证只由 Memento 能访问 Originator 的内部状态，同时也只有 Originator 能从 Memento 中取出状态。具体场景没经历过，感受不深。<br>
+<strong>Observer</strong>：感觉名字起得不是太贴合，只体现了整个流程的后半段：Observer 从 Subject 查看状态，前面的 Subject 通知 Observer 没有在名字中体现。“通知/订阅”模式又稍显繁复，想不出更好的名字。何时通知、何样的消息需要通知也是实现上需要关注的点。<br>
+<strong>State</strong>：用对象的替换代表状态的改变；用方法的运行时多态，实现不同状态下的不同行为。状态对象本身可以是“无状态”的，只实现行为，状态在上下文中传入。我最早实现的一个模式，对大量 <code>switch case</code> 语句的优化效果显著，属于对面向对象特性的精妙运用。<br>
+<strong>Strategy</strong>：用对象封装算法。在函数式编程中可能属于基本操作。<br>
+<strong>Template Method</strong>：使用抽象接口定义了一系列操作的执行逻辑，聚合成一个方法，即某一操作的模板。后面只需要实现&amp;替换抽象接口就算是“模板实例化”。也算是面向对象程序设计的常见操作。<br>
+<strong>Visitor</strong>：Visitor 需要实现对 ObjectStructure 中各类 Element 的 <code>visit</code> 操作（使用函数重载，用参数区分操作可能更简洁）。将识别类型的位置放到具体类型的 Element 中是其巧妙构思所在，是对书中介绍的“double-dispatch 双分派”的一种模拟，最终调用的操作取决于两个接收者的类型（Visitor 和 Element）和具体操作的类型（<code>visit</code>）。</p>
+<p>下一个阅读目标是《重构：改善既有代码的设计》，重构以达成设计模式，先明确了目标（设计模式）再学习达成的方法（重构）。</p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yang2096.github.io/post/C++-object-model-1/">
+              <h3 class="post-title">
+                C++对象模型实例分析
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yang2096.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
