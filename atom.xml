@@ -1,15 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://yang2096.github.io</id>
-    <title>Yang&apos;s Blog</title>
-    <updated>2021-09-11T14:49:17.511Z</updated>
+    <title>YANG&apos;s Blog</title>
+    <updated>2021-09-23T17:42:04.770Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://yang2096.github.io"/>
     <link rel="self" href="https://yang2096.github.io/atom.xml"/>
     <subtitle>Yet ANother Good blog</subtitle>
     <logo>https://yang2096.github.io/images/avatar.png</logo>
     <icon>https://yang2096.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2021, Yang&apos;s Blog</rights>
+    <rights>All rights reserved 2021, YANG&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[读《重构》]]></title>
+        <id>https://yang2096.github.io/post/refactoring/</id>
+        <link href="https://yang2096.github.io/post/refactoring/">
+        </link>
+        <updated>2021-09-21T14:43:03.000Z</updated>
+        <summary type="html"><![CDATA[<p>总以为经过这么多年大浪淘沙后能留下来的都是一些不会囿于时代的经典，但是在我看来这本书只能说明再经典的著作也有其历史的局限性。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>总以为经过这么多年大浪淘沙后能留下来的都是一些不会囿于时代的经典，但是在我看来这本书只能说明再经典的著作也有其历史的局限性。</p>
+<!-- more -->
+<p>在书中占了很大比例的具体“重构”手法，在面向对象编程技术野蛮生长的初期也许是举足轻重的，它们的重要性和具体做法值得反复提出、重点科普。不过在站在2021年的今天来看，很多手法已经算是深入人心，习以为常了，或许这正是此书所完成的使命吧。</p>
+<p>先把丑话说在前头，说说我看书的遗憾。</p>
+<p>首先是内容结构上的。书中列举的重构手法，很多是成对出现的，比如函数下移&amp;函数上移，以继承取代委托&amp;以委托取代继承等等。虽然能明白具体问题需要具体分析，但是这种前后相反的，或者说共轭的手法经常出现，让我产生出一种“正话反话都让你说完了”的无可奈何之感。或许作者应该直接将成对出现的手法合在一起阐述，说明为何两者都有其存在的意义，更多地着墨于其解决的问题，而非具体的代码编写步骤。毕竟书中的许多手法已经在现代的编辑器中点两下鼠标即可实现。</p>
+<p>太多的文字被用于叙述各种具体的手法（从第六章到第十二章），剩下的部分，第三章里的“Code Smell”值得一读。“Code Smell”是一些根本性问题的具体表现，如果作者直接说出这些问题，比如“不能耦合过高”、“应该分离关注点”这些高度凝练的原则，效果可能并不会太好。间接地指明问题的“体表特征”也许是更符合全书整体风格和实际工程实践的合适做法。还有第二章的重构原则，感觉多数已是“稀松平常的世界本来秩序的一部分”。</p>
+<p>另一个遗憾之处是仰慕所带来的期待。在没有学习设计模式前，我对书中的这些手法也并非全然无知——可能还是这书潜移默化的功劳，所以在没读之前，我以为这本书说的是比代码组织高一层次的“重构”，会更多地关注于业务对代码构建的影响，比如会从需求分析开始，先谈谈如何归类这些需求，如何将层层叠叠的旧代码所应付的、业务一路演化而带来的需求化繁为简。中间再说说如何改造旧代码，就像书中实际有的。最后再探讨一下如何让系统能高度扩展、如何用优秀的架构设计抵抗代码腐化。好吧，是我想太多了。</p>
+<p>当我觉得这书不尽人意的时候，也会想：究竟是这书不过如此，还是我未能体会其中深意呢？</p>
+<p>但是在这本书出版的四年前，1995年，《设计模式》出版了。我觉得《设计模式》这样一本里程碑式的著作，背后代表的应该是一个高度发展的面向对象编程技术世界。有点难以想象《重构》的具体创作背景是什么，既然已经能总结出各类模式，为何还需要专门写一本书来总结这些细则呢？难道前人总结的设计模式是空中楼阁？难道软件工程业界也是理论领先于实践？</p>
+<p>总的来说，这本书的“密度”算是比较低的，即使考虑排版比较宽松的因素，一天能看100页，也还是可以说明中间的重构手法实在是没有什么亮点可言。可能作者也有注意到这点，所以一开篇就说了：<br>
+<img src="https://yang2096.github.io/post-images/1632416716018.png" alt="" loading="lazy"></p>
+<p>连译者也说：<br>
+<img src="https://yang2096.github.io/post-images/1632417989176.jpg" alt="" loading="lazy"></p>
+<p>就我的情况来说，这书看了收获没有想象中的大。或许是我读书太功利了吧，恨不得看一本书就得涨一大截经验，连升好几级🤡。虽然吐槽了这么多，但还是不敢轻视书里写的那些手法，毕竟说不定哪天自己又写出了更值得吐槽的垃圾代码。到时候被别人用这些手法来“鞭尸”，岂不是无地自容？</p>
+<p>书还有很多要看，代码还有很多要写，还能怎么办呢？一本本看，一行行写吧。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[读《设计模式》]]></title>
         <id>https://yang2096.github.io/post/design_patterns/</id>
