@@ -1,0 +1,304 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>[rust初见] 一个关于生命周期的问题 | YANG&#39;s Blog</title>
+<link rel="shortcut icon" href="https://yang2096.github.io/favicon.ico?v=1679121148332">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yang2096.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="[rust初见] 一个关于生命周期的问题 | YANG&#39;s Blog - Atom Feed" href="https://yang2096.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+这个问题来自 practice.rs
+
+一个问题
+两行注释是编译器给出的报错
+/* 使下面代码正常运行 */
+struct Interface&lt;'a&gt; {
+    manager: &amp;'a mut Manager&lt..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yang2096.github.io">
+  <img class="avatar" src="https://yang2096.github.io/images/avatar.png?v=1679121148332" alt="">
+  </a>
+  <h1 class="site-title">
+    YANG&#39;s Blog
+  </h1>
+  <p class="site-description">
+    Yet ANother Good blog
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://yang2096.github.io/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/yang2096" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              [rust初见] 一个关于生命周期的问题
+            </h2>
+            <div class="post-info">
+              <span>
+                2023-03-18
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>这个问题来自 <a href="https://practice.rs/lifetime/advance.html#a-difficult-exercise">practice.rs</a></p>
+</blockquote>
+<h1 id="一个问题">一个问题</h1>
+<p>两行注释是编译器给出的报错</p>
+<pre><code class="language-rust">/* 使下面代码正常运行 */
+struct Interface&lt;'a&gt; {
+    manager: &amp;'a mut Manager&lt;'a&gt;
+}
+
+impl&lt;'a&gt; Interface&lt;'a&gt; {
+    pub fn noop(self) {
+        println!(&quot;interface consumed&quot;);
+    }
+}
+
+struct Manager&lt;'a&gt; {
+    text: &amp;'a str
+}
+
+struct List&lt;'a&gt; {
+    manager: Manager&lt;'a&gt;,
+}
+
+impl&lt;'a&gt; List&lt;'a&gt; {
+    pub fn get_interface(&amp;'a mut self) -&gt; Interface {
+        Interface {
+            manager: &amp;mut self.manager
+        }
+    }
+}
+
+fn main() {
+    let mut list = List {
+        manager: Manager {
+            text: &quot;hello&quot;
+        }
+    };
+
+    list.get_interface().noop(); // mutable borrow occurs here
+
+    println!(&quot;Interface should be dropped here and the borrow released&quot;);
+
+    use_list(&amp;list); // cannot borrow `list` as immutable because it is also borrowed as mutable
+}
+
+fn use_list(list: &amp;List) {
+    println!(&quot;{}&quot;, list.manager.text);
+}
+
+</code></pre>
+<h1 id="为什么可变引用的生命周期会持续到最后一行">为什么可变引用的生命周期会持续到最后一行?</h1>
+<ol>
+<li>对于对象的引用 的生命周期是 小于等于 构成该对象的引用类型的字段 的生命周期的.</li>
+<li><code>self</code> 本身的生命周期只需要大于等于 <code>get_interface</code> 内部 + <code>Interface.manager</code> 两者中更长的那一个生命周期.</li>
+<li>但是 <code>get_interface</code> 函数中 <code>self</code> 的生命周期被标注为与 <code>List::manager::text</code> 相同的生命周期.</li>
+<li>再加上后续 <code>main</code> 中还有对 <code>list</code> 的引用, 所以 <code>self</code> 的生命周期相当于被不合适地标注得更长了, 导致与后续的引用冲突.
+<ol>
+<li>这么说合适吗? 毕竟标注不会延长引用的生命周期</li>
+<li>但是生命周期注明的 &quot;规则&quot; 会被编译器应用, 用于在无法推断生命周期之间的关系时去使用, 最终检查对象的生命周期是否与使用的实际情况符合.</li>
+</ol>
+</li>
+</ol>
+<h1 id="如何改正">如何改正?</h1>
+<ol>
+<li>首先需要收敛 <code>self</code> 的生命周期, 给它一个和底层 <code>text &amp;'a str</code> 不同的生命周期.</li>
+<li>又由于 <code>List</code> 中的 <code>Manager&lt;'a&gt;</code> 不是引用, 所以 <code>List::manager</code> 生命周期和 <code>List</code> 对象相同. 所以给 <code>self</code> 与 <code>text</code> 不同的生命周期会导致<code>List::manager</code> 的生命周期与 <code>List::manager::text</code> 的不同.</li>
+<li>但是 <code>Interface</code> 的定义中, <code>Interface::manager</code> 与 <code>Interface::manager::text</code> 被标注成相同的生命周期, 所以需要进一步改变这两者的生命周期关系, 将其分离.</li>
+</ol>
+<h1 id="最终的效果">最终的效果</h1>
+<pre><code class="language-rust">struct Interface&lt;'a, 'b&gt; {
+    manager: &amp;'a mut Manager&lt;'b&gt;
+}
+
+impl Interface&lt;'_, '_&gt; {
+    pub fn noop(self) {
+        println!(&quot;interface consumed&quot;);
+    }
+}
+
+struct Manager&lt;'a&gt; {
+    text: &amp;'a str
+}
+
+struct List&lt;'a&gt; {
+    manager: Manager&lt;'a&gt;,
+}
+
+impl&lt;'a&gt; List&lt;'a&gt; {
+    pub fn get_interface&lt;'b&gt;(&amp;'b mut self) -&gt; Interface&lt;'b,'a&gt; {
+        Interface {
+            manager: &amp;mut self.manager
+        }
+    }
+}
+
+fn main() {
+    let text = &quot;hello&quot;;
+    let mut list = List {
+        manager: Manager {
+            text
+        }
+    };
+    list.get_interface().noop();
+    println!(&quot;Interface should be dropped here and the borrow released&quot;);
+    use_list(&amp;list);
+}
+
+fn use_list(list: &amp;List) {
+    println!(&quot;{}&quot;, list.manager.text);
+}
+</code></pre>
+<h1 id="总结">总结</h1>
+<ol>
+<li>对于结构体本身的引用 与 其底层引用类型的字段 两者的生命周期是不同的, 前者肯定小于等于后者, 而且一般使用的时候是小于的.</li>
+<li>结构体中有引用字段的嵌套, 或者多个同级的引用字段, 需要考虑他们之间的生命周期关系.
+<ol>
+<li>对于上面的代码, <code>Interface&lt;'a, 'b&gt;</code> 中 <code>'a</code> <code>'b</code> 的关系没有注明, 但其实是有隐式的 <code>'b : 'a</code> 存在的.</li>
+<li>如果颠倒过来, 就会导致没修改前相同的错误, 本质上还是让 self 的生命周期变大了.</li>
+</ol>
+</li>
+</ol>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98">一个问题</a></li>
+<li><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AF%E5%8F%98%E5%BC%95%E7%94%A8%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%BC%9A%E6%8C%81%E7%BB%AD%E5%88%B0%E6%9C%80%E5%90%8E%E4%B8%80%E8%A1%8C">为什么可变引用的生命周期会持续到最后一行?</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E6%94%B9%E6%AD%A3">如何改正?</a></li>
+<li><a href="#%E6%9C%80%E7%BB%88%E7%9A%84%E6%95%88%E6%9E%9C">最终的效果</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yang2096.github.io/post/domain_driven_design/">
+              <h3 class="post-title">
+                读《领域驱动设计》
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yang2096.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
